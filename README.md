@@ -25,3 +25,4 @@ git clone https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1.git
 - [ ] 数据库(是否要用数据库存储账户信息?)
 - [ ] ...
 
+### Modified by JoshOY
