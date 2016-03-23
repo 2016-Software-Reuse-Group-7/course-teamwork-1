@@ -43,10 +43,10 @@ public class ServerSocket extends WebSocketServer {
         System.out.println(conn + ": " + message);
     }
 
-    // @Override
+    /*// @Override
     public void onFragment(WebSocket conn, Framedata fragment) {
         System.out.println("received fragment: " + fragment);
-    }
+    }*/
 
     @Override
     public void onError( WebSocket conn, Exception ex ) {

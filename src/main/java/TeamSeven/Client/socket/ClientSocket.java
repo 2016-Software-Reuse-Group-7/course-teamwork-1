@@ -13,6 +13,10 @@ import java.util.Map;
  */
 public class ClientSocket extends WebSocketClient {
 
+
+
+    private String Username;
+
     public ClientSocket(URI serverURI) {
         super(serverURI);
     }
@@ -26,12 +30,19 @@ public class ClientSocket extends WebSocketClient {
     }
 
     /*
+    * 客户端状态转移至连接开始
+    * */
+    @Override
+    public void onOpen(ServerHandshake handshakeData) {
+        System.out.println("连接已建立. 远端服务器URI: " + this.getURI());
+    }
+
+    /*
     * 客户端状态转移至收到消息
     * */
     @Override
     public void onMessage( String message ) {
-        // TODO
-        System.out.println( "received: " + message );
+        System.out.println(message);
     }
 
     /*
@@ -39,24 +50,34 @@ public class ClientSocket extends WebSocketClient {
     * */
     @Override
     public void onClose(int code, String reason, boolean remote /* 是否由服务器端关闭 */) {
-        // TODO
-        System.out.println( "Connection closed by " + ( remote ? "remote peer" : "us" ) );
+        System.out.println("连接已由" + ( remote ? "远端" : "本地" ) + "关闭.");
     }
 
     /*
-    * 客户端状态转移至访问出错
+    * 客户端状态转移至连接出错
     * */
     @Override
     public void onError(Exception ex) {
-        // TODO
+        System.out.println("连接出错.");
         ex.printStackTrace();
     }
 
-    @Override
-    public void onOpen( ServerHandshake handshakedata ) {
-        System.out.println( "Opened connection" );
-        // if you plan to refuse connection based on ip or httpfields overload: onWebsocketHandshakeReceivedAsClient
+    public void sendMessage(String msg) {
+        this.send("[" + this.getUsername() + "]: " + msg);
+        System.out.println("[" + this.getUsername() + "(你)]: " + msg);
     }
 
+    public String getUsername() {
+        return this.Username;
+    }
+
+    public void setUsername(String username) {
+        if ((username != null) && (!username.trim().equals(""))){
+            this.Username = username.trim();
+        }
+        else {
+            this.Username = "匿名用户";
+        }
+    }
 
 }

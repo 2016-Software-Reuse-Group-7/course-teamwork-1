@@ -44,7 +44,7 @@ public class Server {
             }
             else {
                 System.out.println("[*] [系统广播] " + in);
-                s.sendToAll(in);
+                s.sendToAll("[系统广播] " + in);
             }
         }
     }
