@@ -5,6 +5,8 @@ package TeamSeven.client;
  */
 
 import TeamSeven.client.socket.ClientSocket;
+import TeamSeven.entity.Chat;
+import TeamSeven.util.SerializeTool;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,7 +68,9 @@ public class Client {
                 System.out.println("[*] 客户端已重启, 目标服务器: " + serverUri.getHost() + ", 输入restart重连, 输入exit退出. 其他聊天消息可直接输入.");
             }
             else {
-                c.sendMessage(in);
+                Chat msg = new Chat(in, c.getUsername());
+                String encodedMsg = SerializeTool.ObjectToString(msg);
+                c.send(encodedMsg);
             }
         }
     }

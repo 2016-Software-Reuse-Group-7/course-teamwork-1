@@ -63,8 +63,8 @@ public class ClientSocket extends WebSocketClient {
     }
 
     public void sendMessage(String msg) {
-        this.send("[" + this.getUsername() + "]: " + msg);
-        System.out.println("[" + this.getUsername() + "(你)]: " + msg);
+        this.send(msg);
+        // System.out.println("[" + this.getUsername() + "(你)]: " + msg);
     }
 
     public String getUsername() {

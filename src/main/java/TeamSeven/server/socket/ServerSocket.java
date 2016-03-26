@@ -4,16 +4,17 @@ package TeamSeven.server.socket;
  * Created by joshoy on 16/3/22.
  */
 
+import TeamSeven.common.IMessageType;
+import TeamSeven.entity.Chat;
+import TeamSeven.util.SerializeTool;
 import org.java_websocket.WebSocket;
-import org.java_websocket.drafts.Draft;
-import org.java_websocket.framing.Framedata;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.Collection;
-import java.util.List;
 
 public class ServerSocket extends WebSocketServer {
 
@@ -39,14 +40,26 @@ public class ServerSocket extends WebSocketServer {
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        this.sendToAll(message);
-        System.out.println(conn + ": " + message);
-    }
+        // this.sendToAll(message);
+        // System.out.println(conn + ": " + message);
+        try {
+            IMessageType parsedObj = (IMessageType)SerializeTool.ObjectFromString(message);  // May throws Exceptions
+            if (parsedObj.getMessageType().equals(Chat.messageType)) {
+                this.handleChat((Chat)parsedObj, conn);
+            }
+            // TODO: Add other message types
+            /*else if () {
 
-    /*// @Override
-    public void onFragment(WebSocket conn, Framedata fragment) {
-        System.out.println("received fragment: " + fragment);
-    }*/
+            }*/
+            else {
+                throw new ClassNotFoundException("MessageType Not Found in current object class!");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onError( WebSocket conn, Exception ex ) {
@@ -63,5 +76,9 @@ public class ServerSocket extends WebSocketServer {
                 c.send(msg);
             }
         }
+    }
+
+    public void handleChat(Chat chatObj, WebSocket conn) {
+        this.sendToAll(chatObj.toString());
     }
 }
