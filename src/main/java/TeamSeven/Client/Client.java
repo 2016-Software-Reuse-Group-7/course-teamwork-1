@@ -5,6 +5,9 @@ package TeamSeven.client;
  */
 
 import TeamSeven.client.socket.ClientSocket;
+import TeamSeven.client.socket.ClientSocketImpl;
+import TeamSeven.entity.Account;
+import TeamSeven.util.SerializeTool;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,14 +44,21 @@ public class Client {
         /* 建立新的URI实例 */
         URI serverUri = new URI("ws://" + serverIp + ":" + port.toString());
         /* 建立新的ClientSocket实例 */
-        ClientSocket c = new ClientSocket(serverUri);
+        ClientSocket c = new ClientSocketImpl(serverUri);
         /* 设置用户名 */
         BufferedReader sysin = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("请输入用户名(不输入为匿名用户): ");
+        System.out.println("请输入用户名: ");
         String userName = sysin.readLine();
-        c.setUsername(userName);
+        System.out.println("请输入密码: ");
+        String password = sysin.readLine();
 
+        c.setAccount(new Account(userName, password));
         c.connect();
+
+        /* 首先需要验证身份 */
+        String accountMsg = SerializeTool.ObjectToString(c.getAccount());
+        c.sendMessage(accountMsg);
+
         /* 启动Client后 */
         System.out.println("[*] 客户端已启动, 目标服务器: " + serverUri.getHost() + ", 输入restart重连, 输入exit退出. 其他聊天消息可直接输入.");
 
@@ -60,13 +70,15 @@ public class Client {
                 break;
             } else if (in.equals("restart")) {
                 c.close();
-                c = new ClientSocket(serverUri);
-                c.setUsername(userName);
+                c = new ClientSocketImpl(serverUri);
+                // c.setUsername(userName);
                 c.connect();
                 System.out.println("[*] 客户端已重启, 目标服务器: " + serverUri.getHost() + ", 输入restart重连, 输入exit退出. 其他聊天消息可直接输入.");
             }
             else {
-                c.sendMessage(in);
+               /* Chat msg = new Chat(in);
+                String encodedMsg = SerializeTool.ObjectToString(msg);
+                c.send(encodedMsg);*/
             }
         }
     }

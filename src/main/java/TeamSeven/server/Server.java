@@ -1,6 +1,7 @@
 package TeamSeven.server;
 
 import TeamSeven.server.socket.ServerSocket;
+import TeamSeven.server.socket.ServerSocketImpl;
 import org.java_websocket.WebSocketImpl;
 
 import java.io.BufferedReader;
@@ -24,7 +25,7 @@ public class Server {
         } catch ( Exception ex ) {
         }
 
-        ServerSocket s = new ServerSocket(port);
+        ServerSocket s = new ServerSocketImpl(port);
         s.start();
 
         /* 启动Server后 */
@@ -38,7 +39,7 @@ public class Server {
                 break;
             } else if (in.equals("restart")) {
                 s.stop();
-                s = new ServerSocket(port);
+                s = new ServerSocketImpl(port);
                 s.start();
                 System.out.println("[*] 服务器已重启, 输入restart重启, 输入exit退出. 其他广播消息可直接输入.");
             }
@@ -48,4 +49,7 @@ public class Server {
             }
         }
     }
+
+
+
 }
