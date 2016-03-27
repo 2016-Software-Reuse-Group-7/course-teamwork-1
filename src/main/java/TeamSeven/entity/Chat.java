@@ -9,18 +9,13 @@ import java.io.Serializable;
  */
 public class Chat implements Serializable, IMessageType {
 
-    public static String messageType = "MSG";
+    public static final String messageType = "MSG";
+    private Account account;
     private String content;
-    private String userName;
 
-    public Chat(IMessageType parsedObj) {
-        this.setContent("");
-        this.setUserName("");
-    }
-
-    public Chat(String message, String userName) {
+    public Chat(String message, Account account) {
         this.setContent(message);
-        this.setUserName(userName);
+        this.setAccount(account);
     }
 
     public String getContent() {
@@ -31,20 +26,20 @@ public class Chat implements Serializable, IMessageType {
         this.content = content;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     @Override
     public String toString() {
-        return "[" + this.userName + "]: " + content;
+        return "[" + this.account.getUserName() + "]: " + content;
     }
 
     public String getMessageType() {
         return messageType;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
