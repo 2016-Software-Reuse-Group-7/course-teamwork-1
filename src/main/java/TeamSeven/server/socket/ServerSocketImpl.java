@@ -7,7 +7,7 @@ package TeamSeven.server.socket;
 import TeamSeven.common.IMessageType;
 import TeamSeven.entity.Account;
 import TeamSeven.entity.Chat;
-import TeamSeven.entity.ServerResponse;
+import TeamSeven.entity.ServerResponseAccess;
 import TeamSeven.util.SerializeTool;
 import TeamSeven.util.VerificationTool;
 import org.java_websocket.WebSocket;
@@ -93,9 +93,9 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
 
     /* 验证账号是否合法 */
     private void handleAccount(Account accountObj, WebSocket conn) throws IOException {
-        ServerResponse sr = null;
+        ServerResponseAccess sr = null;
         if (VerificationTool.checkAccount(accountObj)) {
-            sr = new ServerResponse(true);
+            sr = new ServerResponseAccess(true);
             conn.send(SerializeTool.ObjectToString(sr));
         }
         else {

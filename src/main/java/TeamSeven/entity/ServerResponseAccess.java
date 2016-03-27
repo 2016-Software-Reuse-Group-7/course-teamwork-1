@@ -7,13 +7,13 @@ import java.io.Serializable;
 /**
  * Created by joshoy on 16/3/27.
  */
-public class ServerResponse implements Serializable, IMessageType {
+public class ServerResponseAccess implements Serializable, IMessageType {
 
-    public static String messageType = "RESP";
+    public static final String messageType = "RESP";
 
     private boolean accessGrant;
 
-    public ServerResponse(boolean accessGrant) {
+    public ServerResponseAccess(boolean accessGrant) {
         this.accessGrant = accessGrant;
     }
 
