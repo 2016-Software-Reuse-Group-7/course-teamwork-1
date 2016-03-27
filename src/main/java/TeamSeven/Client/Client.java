@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Client {
+public class Client extends JFrame{
     /*
     * 客户端主函数
     * */
@@ -59,22 +59,9 @@ public class Client {
                     JOptionPane.showMessageDialog(null, "please input password", "提示", JOptionPane.ERROR_MESSAGE);
                 }
                 else if (userName.equals(text1.getText()) && password.equals(text2.getText())) {
-                    ClientUI client = new ClientUI(serverUri);
+                    ClientUI client = new ClientUI(serverUri,userName,password);
                     jFrame.dispose();
-                    /* 建立新的ClientSocket实例 */
-                    ClientSocket c = new ClientSocketImpl(serverUri);
-        /* 设置用户名 */
-                    c.setAccount(new Account(userName, password));
-                    c.connect();
 
-        /* 首先需要验证身份 */
-                    String accountMsg = null;
-                    try {
-                        accountMsg = SerializeTool.ObjectToString(c.getAccount());
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                    c.sendMessage(accountMsg);
                 } else {
                     JOptionPane.showMessageDialog(null, "wrong password", "提示", JOptionPane.ERROR_MESSAGE);
                     text1.setText("");
@@ -89,10 +76,23 @@ public class Client {
     }
 
     public class ClientUI {
-        public ClientUI(final URI serverUri) {
-            final String userName = "abc";
+        public ClientUI(final URI serverUri,final String userName,final String password) {
+               /* 建立新的ClientSocket实例 */
+            final ClientSocket c = new ClientSocketImpl(serverUri);
+        /* 设置用户名 */
+            c.setAccount(new Account(userName, password));
+            c.connect();
+
+        /* 首先需要验证身份 */
+            String accountMsg = null;
+            try {
+                accountMsg = SerializeTool.ObjectToString(c.getAccount());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            c.sendMessage(accountMsg);
             final JFrame jf = new JFrame("Hello," + userName);
-            jf.setBounds(410,150,600,400);
+            jf.setBounds(410, 150, 600, 400);
             jf.setResizable(false);
             jf.setLayout(null);
             jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,40 +105,41 @@ public class Client {
             JScrollPane jsp = new JScrollPane(jTextArea);
             jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
             jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-            jsp.setBounds(50,30,390,200);
+            jsp.setBounds(50, 30, 390, 200);
 
             jf.add(jsp);
 
             final JTextField text1 = new JTextField();
-            text1.setBounds(50,280,390,30);
+            text1.setBounds(50, 280, 390, 30);
             jf.add(text1);
             final Date day = new Date();
             final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            jTextArea.append(df.format(day)+"\n");
-            jTextArea.append(userName+": log in...\n\n");
+            jTextArea.append(df.format(day) + "\n");
+            jTextArea.append(userName + ": log in...\n\n");
             JButton button = new JButton("Send");
-            button.setBounds(460,280,80,30);
-            button.addActionListener(new
+            button.setBounds(460, 280, 80, 30);
+            button.addActionListener(new ActionListener() {
+                                         public void actionPerformed(ActionEvent e) {
+                                             if (text1.getText() != null||text1.getText().equals("")) {
+                                                 jTextArea.append(df.format(day) + "\n");
+                                                 jTextArea.append(userName + ": " + text1.getText() + "\n\n");
+                                                 text1.setText("");
+                                          //       c.sendMessage(text1.getText());
+                                          //此处添加
 
-                                             ActionListener() {
-                                                 public void actionPerformed (ActionEvent e){
-                                                     if (text1.getText() != null) {
-                                                         jTextArea.append(df.format(day) + "\n");
-                                                         jTextArea.append(userName + ": " + text1.getText() + "\n\n");
-                                                         text1.setText("");
-                                                     } else {
-                                                         JOptionPane.showMessageDialog(null, "wrong input", "Wrong", JOptionPane.ERROR_MESSAGE);
-                                                     }
-                                                 }
+                                             } else {
+                                                 JOptionPane.showMessageDialog(null, "please input", "Warning", JOptionPane.ERROR_MESSAGE);
                                              }
+                                         }
+                                     }
 
             );
             jf.add(button);
 
             JButton bexit = new JButton("Exit");
-            bexit.setBounds(460,235,80,30);
+            bexit.setBounds(460, 235, 80, 30);
             bexit.addActionListener(new ActionListener() {
-                                        public void actionPerformed (ActionEvent e){
+                                        public void actionPerformed(ActionEvent e) {
                                             Date day = new Date();
                                             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                             jTextArea.append(df.format(day) + "\n");
@@ -150,9 +151,9 @@ public class Client {
             );
             jf.add(bexit);
             JButton brelog = new JButton("Relog");
-            brelog.setBounds(460,185,80,30);
+            brelog.setBounds(460, 185, 80, 30);
             brelog.addActionListener(new ActionListener() {
-                                         public void actionPerformed (ActionEvent e){
+                                         public void actionPerformed(ActionEvent e) {
                                              jf.dispose();
                                              new Client(serverUri);
                                          }
@@ -162,7 +163,6 @@ public class Client {
 
             jf.setVisible(true);
         }
-
     }
     public static void main(String[] args) throws URISyntaxException, IOException {
 

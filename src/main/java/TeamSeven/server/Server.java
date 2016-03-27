@@ -3,16 +3,12 @@ package TeamSeven.server;
 import TeamSeven.server.socket.ServerSocket;
 import TeamSeven.server.socket.ServerSocketImpl;
 import org.java_websocket.WebSocketImpl;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import javax.swing.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  * Created by joshoy on 16/3/22.
@@ -42,7 +38,7 @@ public class Server {
             jf.add(jsp);
 
             JButton bexit = new JButton("Exit");
-            bexit.setBounds(200, 275, 150, 30);
+            bexit.setBounds(200, 275, 100, 30);
             bexit.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     Date day=new Date();
@@ -53,6 +49,15 @@ public class Server {
                 }
             });
             jf.add(bexit);
+            JButton brestart = new JButton("Restart");
+            brestart.setBounds(50, 275, 100, 30);
+            brestart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                jf.dispose();
+                new Server();
+            }
+        });
+        jf.add(brestart);
 
             jf.setVisible(true);
 
@@ -71,26 +76,7 @@ public class Server {
         s.start();
 
         /* 启动Server后 */
-        System.out.println("[*] 服务器已启动, 端口" + port + ", 输入restart重启, 输入exit退出. 其他广播消息可直接输入.");
         new Server();
-        BufferedReader sysin = new BufferedReader(new InputStreamReader(System.in));
-        while (true) {
-            String in = sysin.readLine();
-            if (in.equals("exit")) {
-                s.stop();
-                System.out.println("[*] 服务器已退出.");
-                break;
-            } else if (in.equals("restart")) {
-                s.stop();
-                s = new ServerSocketImpl(port);
-                s.start();
-                System.out.println("[*] 服务器已重启, 输入restart重启, 输入exit退出. 其他广播消息可直接输入.");
-            }
-            else {
-                System.out.println("[*] [系统广播] " + in);
-                s.sendToAll("[系统广播] " + in);
-            }
-        }
     }
 
 
