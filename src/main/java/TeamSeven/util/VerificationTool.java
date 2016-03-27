@@ -2,6 +2,8 @@ package TeamSeven.util;
 
 import TeamSeven.entity.Account;
 
+import java.sql.*;
+
 /**
  * Created by joshoy on 16/3/27.
  */
@@ -13,8 +15,47 @@ public abstract class VerificationTool {
 
     public static boolean checkAccount(Account account) {
         // TODO
+        String name = account.getUserName();
+        String passwd = account.getPassword();
         return true;
     }
 
+    public static int verifyPassword( String userName, String password ) //返回用户id,验证不通过返回-1
+    {
+        Connection c = null;
+        Statement stmt = null;
+        //int userId = -1;
+
+        try {
+            Class.forName( "org.sqlite.JDBC" );
+            c = DriverManager.getConnection( "jdbc:sqlite:teamwork-1.db" );
+            //System.out.println( "Opened database successfully" );
+
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery( "SELECT * FROM account WHERE userName = '" + userName + "' ;" );
+            while ( rs.next() ) {
+                String expectedPw = rs.getString( "password" );
+                int login = rs.getInt("login");
+                if( password.equals(expectedPw) )
+                {
+                    // System.out.println(expectedPw.equals(password)+" "+login);
+                    if(login == 0){
+                        stmt.executeUpdate("UPDATE account SET login = 1 where userName = '" + userName +"';");
+                        return 1;
+                    }else {
+                        return -1;
+                    }
+                }
+            }
+
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+        //return userId;
+        return 0;
+    }
 
 }
