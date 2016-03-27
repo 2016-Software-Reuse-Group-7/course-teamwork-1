@@ -1,4 +1,4 @@
-package TeamSeven.client.socket;
+package TeamSeven.Client.socket;
 
 import TeamSeven.entity.Account;
 import org.java_websocket.client.WebSocketClient;

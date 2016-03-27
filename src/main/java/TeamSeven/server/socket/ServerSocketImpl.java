@@ -21,16 +21,16 @@ import java.util.*;
 
 public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
 
-    private List<ClientConnectionSocket> clientConnectionList;
+  //  private List<ClientConnectionSocket> clientConnectionList;
 
     public ServerSocketImpl(int port) throws UnknownHostException {
         super(new InetSocketAddress(port));
-        clientConnectionList = new ArrayList<ClientConnectionSocket>();
+      //  clientConnectionList = new ArrayList<ClientConnectionSocket>();
     }
 
     public ServerSocketImpl(InetSocketAddress address) {
         super(address);
-        clientConnectionList = new ArrayList<ClientConnectionSocket>();
+      //  clientConnectionList = new ArrayList<ClientConnectionSocket>();
     }
 
     @Override
