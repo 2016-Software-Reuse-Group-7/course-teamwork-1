@@ -21,16 +21,16 @@ import java.util.*;
 
 public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
 
-    private List<ClientConnectionSocket> clientConnectionList;
+    //private List<ClientConnectionSocket> clientConnectionList;
 
     public ServerSocketImpl(int port) throws UnknownHostException {
         super(new InetSocketAddress(port));
-        clientConnectionList = new ArrayList<ClientConnectionSocket>();
+        //clientConnectionList = new ArrayList<ClientConnectionSocket>();
     }
 
     public ServerSocketImpl(InetSocketAddress address) {
         super(address);
-        clientConnectionList = new ArrayList<ClientConnectionSocket>();
+        //clientConnectionList = new ArrayList<ClientConnectionSocket>();
     }
 
     @Override
@@ -87,7 +87,19 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
 
     /* 收到的消息类型为聊天 */
     private void handleChat(Chat chatObj, WebSocket conn) throws IOException {
-        /* TODO: 这里需要加验证 */
+        // TODO Send Response
+        Date nowDate = new Date();
+        if (!VerificationTool.checkOverFrequency(chatObj.getAccount(), nowDate)){
+            // Send OverFrequency
+            return;
+        }
+
+        if (!VerificationTool.checkOutOfLimit(chatObj.getAccount(), nowDate)){
+            //Send Relogin
+            return;
+        }
+
+        //Send OK
         this.sendToAll(SerializeTool.ObjectToString(chatObj));
     }
 
