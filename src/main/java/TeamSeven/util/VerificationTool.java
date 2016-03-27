@@ -23,7 +23,8 @@ public abstract class VerificationTool {
     public static int verifyPassword( String userName, String password ) //返回用户id,验证不通过返回-1
     {
         Connection c = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
+        PreparedStatement st = null;
         //int userId = -1;
 
         try {
@@ -31,8 +32,9 @@ public abstract class VerificationTool {
             c = DriverManager.getConnection( "jdbc:sqlite:teamwork-1.db" );
             //System.out.println( "Opened database successfully" );
 
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery( "SELECT * FROM account WHERE userName = '" + userName + "' ;" );
+            stmt = c.prepareStatement("SELECT * FROM account WHERE userName = ?");
+            stmt.setString(1,userName);
+            ResultSet rs = stmt.executeQuery();
             while ( rs.next() ) {
                 String expectedPw = rs.getString( "password" );
                 int login = rs.getInt("login");
@@ -40,7 +42,9 @@ public abstract class VerificationTool {
                 {
                     // System.out.println(expectedPw.equals(password)+" "+login);
                     if(login == 0){
-                        stmt.executeUpdate("UPDATE account SET login = 1 where userName = '" + userName +"';");
+                        st = c.prepareStatement("UPDATE account SET login = 1 where userName = ?");
+                        st.setString(1,userName);
+                        st.executeUpdate();
                         return 1;
                     }else {
                         return -1;
