@@ -16,6 +16,11 @@ public class Client {
     /*
     * 客户端主函数
     * */
+
+    public static int add(int a, int b){
+        return a +b ;
+    }
+
     public static void main(String[] args) throws URISyntaxException, IOException {
 
         String serverIp = "";
