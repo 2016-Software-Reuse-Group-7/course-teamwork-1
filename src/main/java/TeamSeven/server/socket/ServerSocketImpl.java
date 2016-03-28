@@ -88,18 +88,24 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
     /* 收到的消息类型为聊天 */
     private void handleChat(Chat chatObj, WebSocket conn) throws IOException {
         /* TODO: 这里需要加验证 */
-        this.sendToAll(SerializeTool.ObjectToString(chatObj));
+        if(VerificationTool.checkAccountActive(chatObj.getAccount())) {
+            this.sendToAll(SerializeTool.ObjectToString(chatObj));
+        }else{
+            conn.send("You are not active");
+        }
     }
 
     /* 验证账号是否合法 */
     private void handleAccount(Account accountObj, WebSocket conn) throws IOException {
         ServerResponseAccess sr = null;
-        if (VerificationTool.checkAccount(accountObj)) {
+        if (VerificationTool.checkAccount(accountObj) == 1) {
             sr = new ServerResponseAccess(true);
             conn.send(SerializeTool.ObjectToString(sr));
         }
-        else {
-            conn.send("");
+        else if(VerificationTool.checkAccount(accountObj) == 0){
+            conn.send("Wrong password or username !");
+        }else{
+            conn.send("Duplicate login.Please protect your password~");
         }
     }
 }

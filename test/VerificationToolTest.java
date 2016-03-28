@@ -1,3 +1,4 @@
+import TeamSeven.entity.Account;
 import TeamSeven.util.VerificationTool;
 import org.junit.After;
 import org.junit.Before;
@@ -24,7 +25,7 @@ public class VerificationToolTest {
     @Test
     public void TestLogin() throws Exception{
         String userName = "a";
-        String passwd = "bbb";
+        String passwd = "bbb";// Other test cases : ddming  1234. OuYang 123456,HXX 1111.
         int ret = VerificationTool.verifyPassword(userName,VerificationTool.crypMD5(passwd) );
         assertEquals(-1,ret);
     }
@@ -33,5 +34,11 @@ public class VerificationToolTest {
         String origin = "haha";
         String crypt = "4e4d6c332b6fe62a63afe56171fd3725";
         assertEquals(crypt, VerificationTool.crypMD5(origin));
+    }
+
+    @Test
+    public void TestAccountActive() throws Exception{
+        Account a = new Account("a","blabla");
+        assertTrue(VerificationTool.checkAccountActive(a));
     }
 }

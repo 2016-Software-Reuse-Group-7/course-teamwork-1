@@ -15,11 +15,33 @@ public abstract class VerificationTool {
         // TODO
     }
 
-    public static boolean checkAccount(Account account) {
+    public static int checkAccount(Account account) {
         // TODO
         String name = account.getUserName();
         String passwd = account.getPassword();
-        return true;
+        return verifyPassword(name,passwd);
+    }
+
+    // Check account if active to ensure the chat is Okay.
+    public static boolean checkAccountActive(Account account) {
+        Connection c;
+        PreparedStatement pst;
+        try{
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:teamwork-1.db");
+            pst = c.prepareStatement("SELECT * FROM account WHERE userName = ?");
+            pst.setString(1,account.getUserName());
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                int status = rs.getInt("login");
+                if(status == 1){
+                    return true;
+                }
+            }
+        }catch (Exception e){
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+        return false;
     }
 
     public static String crypMD5(String md5) {
@@ -37,6 +59,9 @@ public abstract class VerificationTool {
         return null;
     }
 
+    // return 1 means log in OK.
+    // return 0 means wrong name or passwd
+    // return -1 means diplicate login.
     public static int verifyPassword( String userName, String password ) //返回用户id,验证不通过返回-1
     {
         Connection c = null;
