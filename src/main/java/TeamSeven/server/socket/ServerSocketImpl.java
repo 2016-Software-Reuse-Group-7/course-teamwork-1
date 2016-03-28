@@ -5,9 +5,7 @@ package TeamSeven.server.socket;
  */
 
 import TeamSeven.common.IMessageType;
-import TeamSeven.entity.Account;
-import TeamSeven.entity.Chat;
-import TeamSeven.entity.ServerResponseAccess;
+import TeamSeven.entity.*;
 import TeamSeven.util.SerializeTool;
 import TeamSeven.util.VerificationTool;
 import org.java_websocket.WebSocket;
@@ -21,27 +19,27 @@ import java.util.*;
 
 public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
 
-    private List<ClientConnectionSocket> clientConnectionList;
+    // private List<ClientConnectionSocket> clientConnectionList;
 
     public ServerSocketImpl(int port) throws UnknownHostException {
         super(new InetSocketAddress(port));
-        clientConnectionList = new ArrayList<ClientConnectionSocket>();
+        // clientConnectionList = new ArrayList<ClientConnectionSocket>();
     }
 
     public ServerSocketImpl(InetSocketAddress address) {
         super(address);
-        clientConnectionList = new ArrayList<ClientConnectionSocket>();
+        // clientConnectionList = new ArrayList<ClientConnectionSocket>();
     }
 
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-        this.sendToAll("new connection: " + handshake.getResourceDescriptor());
+        // this.sendToAll("new connection: " + handshake.getResourceDescriptor());
         System.out.println(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!");
     }
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote /* 是否由远端(客户端)发起 */) {
-        this.sendToAll(conn + " has left the room!");
+        // this.sendToAll(conn + " has left the room!");
         System.out.println(conn + " has left the room!");
     }
 
@@ -54,7 +52,6 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
             if (parsedObj.getMessageType().equals(Chat.messageType)) {
                 this.handleChat((Chat)parsedObj, conn);
             }
-            // TODO: Add other message types
             else if (parsedObj.getMessageType().equals(Account.messageType)) {
                 this.handleAccount((Account)parsedObj, conn);
             }
@@ -88,7 +85,13 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
     /* 收到的消息类型为聊天 */
     private void handleChat(Chat chatObj, WebSocket conn) throws IOException {
         /* TODO: 这里需要加验证 */
-        this.sendToAll(SerializeTool.ObjectToString(chatObj));
+        ServerResponseChatOK respOk = new ServerResponseChatOK();
+        conn.send(SerializeTool.ObjectToString(respOk));
+        ServerResponseChat respChat = new ServerResponseChat();
+        respChat.setChatTime(new Date());
+        respChat.setMessage(chatObj.getContent());
+        respChat.setUserName(chatObj.getAccount().getUserName());
+        this.sendToAll(SerializeTool.ObjectToString(respChat));
     }
 
     /* 验证账号是否合法 */
