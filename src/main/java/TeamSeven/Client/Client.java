@@ -18,11 +18,12 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Client extends JFrame{
+public class Client {
+
     /*
     * 客户端主函数
     * */
-    public Client(final URI serverUri ) {
+    /*public Client(final URI serverUri ) {
         final String userName = "";
         final String password = "";
         final JFrame jFrame = new JFrame("Login");
@@ -46,7 +47,6 @@ public class Client extends JFrame{
         final JPasswordField text2 = new JPasswordField();
         text2.setBounds(180, 105, 130, 25);
         jFrame.add(text2);
-
 
         JButton button = new JButton("Login");
         button.setBounds(120, 155, 150, 30);
@@ -73,16 +73,18 @@ public class Client extends JFrame{
 
         jFrame.setVisible(true);
     }
+    */
 
+    /*
     public class ClientUI {
         public ClientUI(final URI serverUri,final String userName,final String password) {
-               /* 建立新的ClientSocket实例 */
+               *//* 建立新的ClientSocket实例 *//*
             final ClientSocket c = new ClientSocketImpl(serverUri);
-        /* 设置用户名 */
+        *//* 设置用户名 *//*
             c.setAccount(new Account(userName, password));
             c.connect();
 
-        /* 首先需要验证身份 */
+        *//* 首先需要验证身份 *//*
             String accountMsg = null;
             try {
                 accountMsg = SerializeTool.ObjectToString(c.getAccount());
@@ -158,7 +160,7 @@ public class Client extends JFrame{
             jf.add(brelog);
             jf.setVisible(true);
         }
-    }
+    }*/
 
     public static void main(String[] args) throws URISyntaxException, IOException {
 
