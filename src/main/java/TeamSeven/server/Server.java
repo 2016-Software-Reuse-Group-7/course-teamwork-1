@@ -4,9 +4,13 @@ import TeamSeven.server.socket.ServerSocket;
 import TeamSeven.server.socket.ServerSocketImpl;
 import org.java_websocket.WebSocketImpl;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by joshoy on 16/3/22.
@@ -27,6 +31,35 @@ public class Server {
 
         ServerSocket s = new ServerSocketImpl(port);
         s.start();
+
+        /* 开始定时记录 */
+        TimerTask task = new TimerTask() {
+
+            @Override
+            public void run() {
+
+                Date dt = new Date();
+                DateFormat df = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
+                String time = df.format( dt );
+
+                try {
+
+                    String fileName = "./log/server.txt";
+                    FileWriter writer = new FileWriter( fileName, true );
+                    System.out.println( time + "  接收消息数量:   忽略消息数量:  " );  //received/ignored messages number
+                    writer.write( time + "  接收消息数量:   忽略消息数量:  \n" );
+                    writer.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println( "error" );
+                }
+            }
+        };
+
+        Timer timer = new Timer();
+        timer.schedule(task, 0, 60000);
+
 
         /* 启动Server后 */
         System.out.println("[*] 服务器已启动, 端口" + port + ", 输入restart重启, 输入exit退出. 其他广播消息可直接输入.");
