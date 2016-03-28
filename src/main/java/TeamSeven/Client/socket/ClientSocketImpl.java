@@ -1,10 +1,13 @@
 package TeamSeven.client.socket;
 
-import TeamSeven.entity.Account;
+import TeamSeven.common.IMessageType;
+import TeamSeven.entity.*;
+import TeamSeven.util.SerializeTool;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
@@ -40,8 +43,36 @@ public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
     * */
     @Override
     public void onMessage(String message) {
-        
+        try {
+            IMessageType parsedMsg = (IMessageType) SerializeTool.ObjectFromString(message);
+            if (parsedMsg.getMessageType().equals(ServerResponseChat.messageType)) {
+                this.handleRespChat((ServerResponseChat) parsedMsg);
+            }
+            else if (parsedMsg.getMessageType().equals(ServerResponseAccess.messageType)) {
+                this.handleRespAccess((ServerResponseAccess) parsedMsg);
+            }
+            else if (parsedMsg.getMessageType().equals(ServerResponseChatOK.messageType)) {
+                this.handleRespOK((ServerResponseChatOK) parsedMsg);
+            }
+            else if (parsedMsg.getMessageType().equals(ServerResponseChatOverFrequency.messageType)) {
+                this.handleRespOverFreq((ServerResponseChatOverFrequency) parsedMsg);
+            }
+            else if (parsedMsg.getMessageType().equals(ServerResponseRelogin.messageType)) {
+                this.handleRespRelogin((ServerResponseRelogin) parsedMsg);
+            }
+            else {
+                throw new ClassNotFoundException();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
+
+
 
     /*
     * 客户端状态转移至关闭连接
@@ -71,5 +102,25 @@ public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
 
     public Account getAccount() {
         return this.account;
+    }
+
+    private void handleRespChat(ServerResponseChat resp) {
+        // TODO
+    }
+
+    private void handleRespAccess(ServerResponseAccess resp) {
+        // TODO
+    }
+
+    private void handleRespOK(ServerResponseChatOK resp) {
+        // TODO
+    }
+
+    private void handleRespOverFreq(ServerResponseChatOverFrequency resp) {
+        // TODO
+    }
+
+    private void handleRespRelogin(ServerResponseRelogin resp) {
+        // TODO
     }
 }
