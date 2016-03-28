@@ -16,8 +16,9 @@ import java.util.Map;
  */
 public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
 
-    private Account account;
-    private boolean accessGranted;
+    private Account account = null;
+    private boolean accessGranted = false;
+    private boolean receivedLoginResponse = false;
 
     public ClientSocketImpl(URI serverURI) {
         super(serverURI);
@@ -73,8 +74,6 @@ public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
 
     }
 
-
-
     /*
     * 客户端状态转移至关闭连接
     * */
@@ -97,6 +96,31 @@ public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
         this.send(msg);
     }
 
+    /* 发送对话 */
+    public boolean sendChat(String chatContent) throws IOException {
+        if (this.isAccessGranted()) {
+            Chat chat = new Chat(chatContent, this.getAccount());
+            this.sendMessage(SerializeTool.ObjectToString(chat));
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /* 发送登录信息 */
+    public boolean sendLogin() throws IOException {
+        if (this.isAccessGranted()) {
+            System.out.println("请勿重复登录.");
+            return false;
+        }
+        else {
+            this.setReceivedLoginResponse(false);
+            this.sendMessage(SerializeTool.ObjectToString(this.getAccount()));
+            return true;
+        }
+    }
+
     public void setAccount(Account account) {
         this.account = account;
     }
@@ -113,6 +137,7 @@ public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
     /* 登录请求发送后收到的返回消息 */
     private void handleRespAccess(ServerResponseAccess resp) {
         /* 如果成功登录 */
+        this.setReceivedLoginResponse(true);
         if (resp.isAccessGrant()) {
             System.out.println("登录成功.");
             this.setAccessGranted(true);
@@ -140,6 +165,14 @@ public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
 
     public boolean isAccessGranted() {
         return accessGranted;
+    }
+
+    public boolean receivedLoginResp() {
+        return this.receivedLoginResponse;
+    }
+
+    private void setReceivedLoginResponse(boolean status) {
+        this.receivedLoginResponse = status;
     }
 
     private void setAccessGranted(boolean accessGranted) {

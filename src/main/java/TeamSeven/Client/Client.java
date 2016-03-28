@@ -44,41 +44,56 @@ public class Client {
         /* 建立新的URI实例 */
         URI serverUri = new URI("ws://" + serverIp + ":" + port.toString());
         /* 建立新的ClientSocket实例 */
-        ClientSocket c = new ClientSocketImpl(serverUri);
-        /* 设置用户名 */
+        ClientSocket c = null;
         BufferedReader sysin = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("请输入用户名: ");
-        String userName = sysin.readLine();
-        System.out.println("请输入密码: ");
-        String password = sysin.readLine();
 
-        c.setAccount(new Account(userName, password));
-        c.connect();
+        boolean needLogin = true;
+        while (needLogin) {
+            c = new ClientSocketImpl(serverUri);
+            c.connect();
+            /* 设置用户名 */
+            System.out.println("请输入用户名: ");
+            String userName = sysin.readLine();
+            System.out.println("请输入密码: ");
+            String password = sysin.readLine();
 
-        /* 首先需要验证身份 */
-        String accountMsg = SerializeTool.ObjectToString(c.getAccount());
-        c.sendMessage(accountMsg);
+            c.setAccount(new Account(userName, password));
+            // c.connect();
+
+            /* 首先需要验证身份 */
+            c.sendLogin();
+            while (true) {
+                try {
+                    System.out.println("登录中...");
+                    Thread.sleep(1000);
+                    if (c.receivedLoginResp() && c.isAccessGranted()) {
+                        needLogin = false;
+                        break;
+                    }
+                    else if ( c.receivedLoginResp() && (!c.isAccessGranted()) ) {
+                        System.out.println("登录失败.");
+                        needLogin = true;
+                        break;
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
         /* 启动Client后 */
-        System.out.println("[*] 客户端已启动, 目标服务器: " + serverUri.getHost() + ", 输入restart重连, 输入exit退出. 其他聊天消息可直接输入.");
+        System.out.println("[*] 客户端已启动, 目标服务器: " + serverUri.getHost() + ", 输入exit退出. 其他聊天消息可直接输入.");
 
-        while (true) {
+        while (false == needLogin) {
             String in = sysin.readLine();
             if (in.equals("exit")) {
                 c.close();
                 System.out.println("[*] 连接中断.");
                 break;
-            } else if (in.equals("restart")) {
-                c.close();
-                c = new ClientSocketImpl(serverUri);
-                // c.setUsername(userName);
-                c.connect();
-                System.out.println("[*] 客户端已重启, 目标服务器: " + serverUri.getHost() + ", 输入restart重连, 输入exit退出. 其他聊天消息可直接输入.");
             }
             else {
-               /* Chat msg = new Chat(in);
-                String encodedMsg = SerializeTool.ObjectToString(msg);
-                c.send(encodedMsg);*/
+               c.sendChat(in);
             }
         }
     }

@@ -4,6 +4,7 @@ import TeamSeven.entity.Account;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.io.IOException;
 import java.net.URI;
 
 /**
@@ -19,4 +20,8 @@ public interface ClientSocket {
     public Account getAccount();
     public void connect();
     public void close();
+    public boolean sendChat(String chatContent) throws IOException;
+    public boolean sendLogin() throws IOException;
+    public boolean isAccessGranted();
+    public boolean receivedLoginResp();
 }
