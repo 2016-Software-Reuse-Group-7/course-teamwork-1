@@ -17,6 +17,7 @@ import java.util.Map;
 public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
 
     private Account account;
+    private boolean accessGranted;
 
     public ClientSocketImpl(URI serverURI) {
         super(serverURI);
@@ -104,23 +105,44 @@ public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
         return this.account;
     }
 
+    /* 接收到对话消息后, 输出用户名, 消息发送时间, 消息内容 */
     private void handleRespChat(ServerResponseChat resp) {
-        // TODO
+        String formattedOutput = "[" + resp.getUserName() + " @ " + resp.getChatTime().toString() + "]: " + resp.getMessage();
+        System.out.println(formattedOutput);
     }
-
+    /* 登录请求发送后收到的返回消息 */
     private void handleRespAccess(ServerResponseAccess resp) {
-        // TODO
+        /* 如果成功登录 */
+        if (resp.isAccessGrant()) {
+            System.out.println("登录成功.");
+            this.setAccessGranted(true);
+        }
+        /* 否则 */
+        else {
+            System.out.println("登录失败, 请检查您的用户名和密码.");
+            this.setAccessGranted(false);
+        }
     }
 
     private void handleRespOK(ServerResponseChatOK resp) {
-        // TODO
+        return;
     }
 
     private void handleRespOverFreq(ServerResponseChatOverFrequency resp) {
-        // TODO
+        System.out.println("您发送消息的频率过快. 请稍后再试.");
     }
 
     private void handleRespRelogin(ServerResponseRelogin resp) {
-        // TODO
+        System.out.println("系统要求重新登录. 原因: " + resp.getReason());
+        this.account = null;
+        this.setAccessGranted(false);
+    }
+
+    public boolean isAccessGranted() {
+        return accessGranted;
+    }
+
+    private void setAccessGranted(boolean accessGranted) {
+        this.accessGranted = accessGranted;
     }
 }
