@@ -15,11 +15,13 @@ public class ServerUI {
     protected final JTextArea jTextArea;
     protected JScrollPane jsp;
     protected JButton bexit;
+    protected JButton bport;
+    protected JButton bstart;
     protected JButton brestart;
-
+    protected JLabel labelPort;
     public ServerUI() {
         jf = new JFrame("Server is on...");
-        jf.setBounds(410,150, 600, 400);
+        jf.setBounds(410,150, 710, 400);
         jf.setResizable(false);
         jf.setLayout(null);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,8 +38,25 @@ public class ServerUI {
         jf.add(jsp);
 
 
+        labelPort = new JLabel("Port：");
+        labelPort.setBounds(520, 50, 50, 30);
+        jf.add(labelPort);
+
+        bport = new JButton("");
+        bport.setBounds(570, 50, 100, 30);
+        bport.setEnabled(false);
+        jf.add(bport);
+
+        bstart = new JButton("Start");
+        bstart.setBounds(550, 150, 100, 30);
+        bstart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        jf.add(bstart);
         bexit = new JButton("Exit");
-        bexit.setBounds(200, 275, 100, 30);
+        bexit.setBounds(550, 200, 100, 30);
         bexit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Date day = new Date();
@@ -50,11 +69,11 @@ public class ServerUI {
         jf.add(bexit);
 
         brestart = new JButton("Restart");
-        brestart.setBounds(50, 275, 100, 30);
+        brestart.setBounds(550, 250, 100, 30);
         brestart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jf.dispose();
-                new ServerUI();
+                new ServerLoginUI();
             }
         });
         jf.add(brestart);

@@ -1,13 +1,12 @@
-package TeamSeven.Client.ui;
+package TeamSeven.server.ui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.ActionEvent;
 /**
  * Created by joshoy on 16/3/28.
  */
-public class ClientLoginUI {
+public class ServerLoginUI {
 
     /* Data models */
     protected String userName;
@@ -18,57 +17,32 @@ public class ClientLoginUI {
     protected JLabel labelUsername;
     protected JLabel labelPassword;
     protected JTextField textFieldUsername;
-    protected JPasswordField textFieldPassword;
+    protected JTextField textFieldPassword;
     protected JButton loginButton;
     protected JLabel labelPort;
     protected JLabel labelIP;
     protected JTextField textFieldPort;
     protected JTextField textFieldIP;
-    public ClientLoginUI() {
+    public ServerLoginUI() {
         /* initialize JFrame */
         jFrame = new JFrame();
-        jFrame.setBounds(400, 100, 400, 500);
+        jFrame.setBounds(450, 200, 350, 230);
         jFrame.setResizable(false);
         jFrame.setLayout(null);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        /* Initialize components */
-        labelUsername = new JLabel("UserId");
-        labelUsername.setBounds(60, 50, 100, 30);
-        jFrame.add(labelUsername);
-
-        labelPassword = new JLabel("Password");
-        labelPassword.setBounds(60, 100, 100, 30);
-        jFrame.add(labelPassword);
-
-        textFieldUsername = new JTextField();
-        textFieldUsername.setBounds(180, 50, 130, 30);
-        jFrame.add(textFieldUsername);
-
-        textFieldPassword = new JPasswordField();
-        textFieldPassword.setBounds(180, 100, 130, 30);
-        jFrame.add(textFieldPassword);
-
         labelPort = new JLabel("Port");
-        labelPort.setBounds(60, 150, 100, 30);
+        labelPort.setBounds(60, 50, 100, 30);
         labelPort.setText("8887");
         jFrame.add(labelPort);
 
-        labelIP= new JLabel("IP");
-        labelIP.setBounds(60, 200, 100, 30);
-        labelIP.setText("127.0.0.1");
-        jFrame.add(labelIP);
 
         textFieldPort = new JTextField();
-        textFieldPort.setBounds(180, 150, 130, 30);
+        textFieldPort.setBounds(180, 50, 130, 30);
         jFrame.add(textFieldPort);
 
-        textFieldIP = new JTextField();
-        textFieldIP.setBounds(180, 200, 130, 30);
-        jFrame.add(textFieldIP);
-
         loginButton = new JButton("Login");
-        loginButton.setBounds(120, 355, 150, 30);
+        loginButton.setBounds(100, 120, 140, 30);
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {}});
         jFrame.add(loginButton);

@@ -1,8 +1,8 @@
-package TeamSeven.client.ui;
+package TeamSeven.Client.ui;
 
-import TeamSeven.client.Client;
-import TeamSeven.client.socket.ClientSocket;
-import TeamSeven.client.socket.ClientSocketImpl;
+import TeamSeven.Client.Client;
+import TeamSeven.Client.socket.ClientSocket;
+import TeamSeven.Client.socket.ClientSocketImpl;
 import TeamSeven.entity.Account;
 import TeamSeven.util.SerializeTool;
 
@@ -26,12 +26,16 @@ public class ClientUI {
     protected JButton button;
     protected JButton bexit;
     protected JButton brelog;
+    protected JLabel labelPort;
+    protected JButton bport;
+    protected JLabel labelIP;
+    protected JButton bip;
 
     public ClientUI(final URI serverUri, final String userName, final String password) {
 
         /* Initialize JFrame s*/
         jf = new JFrame("Hello, " + userName);
-        jf.setBounds(410, 150, 600, 400);
+        jf.setBounds(410, 150, 650, 400);
         jf.setResizable(false);
         jf.setLayout(null);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,17 +57,41 @@ public class ClientUI {
         text1.setBounds(50, 280, 390, 30);
         jf.add(text1);
 
+        labelPort = new JLabel("Port：");
+        labelPort.setBounds(460, 50, 50, 30);
+        jf.add(labelPort);
+
+        bport = new JButton("");
+        bport.setBounds(520, 50, 100, 30);
+        bport.setEnabled(false);
+        jf.add(bport);
+
+        labelIP = new JLabel("IP：");
+        labelIP.setBounds(460, 100, 50, 30);
+        jf.add(labelIP);
+
+        bip = new JButton("");
+        bip.setBounds(520, 100, 100, 30);
+        bip.setEnabled(false);
+        jf.add(bip);
+
         button = new JButton("Send");
-        button.setBounds(460, 280, 80, 30);
+        button.setBounds(450, 280, 80, 30);
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {}});
         jf.add(button);
 
 
         bexit = new JButton("Exit");
-        bexit.setBounds(460, 235, 80, 30);
+        bexit.setBounds(520, 220, 80, 30);
+        bexit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {}});
         jf.add(bexit);
 
         brelog = new JButton("Relog");
-        brelog.setBounds(460, 185, 80, 30);
+        brelog.setBounds(520, 170, 80, 30);
+        brelog.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {}});
         jf.add(brelog);
         jf.setVisible(true);
     }

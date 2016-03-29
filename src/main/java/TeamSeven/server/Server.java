@@ -12,7 +12,8 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import javax.swing.*;
 import java.io.IOException;
-
+import TeamSeven.server.ui.ServerLoginUI;
+import TeamSeven.server.ui.ServerUI;
 /**
  * Created by joshoy on 16/3/22.
  */
@@ -35,7 +36,7 @@ public class Server {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-
+     new ServerLoginUI();
 
     }
 

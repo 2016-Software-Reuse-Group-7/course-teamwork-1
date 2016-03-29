@@ -1,4 +1,4 @@
-package TeamSeven.client.socket;
+package TeamSeven.Client.socket;
 
 import TeamSeven.common.IMessageType;
 import TeamSeven.entity.*;

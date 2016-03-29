@@ -1,4 +1,4 @@
-package TeamSeven.client;
+package TeamSeven.Client;
 
 /**
  * Created by joshoy on 16/3/22.
@@ -6,8 +6,8 @@ package TeamSeven.client;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import TeamSeven.client.socket.ClientSocket;
-import TeamSeven.client.socket.ClientSocketImpl;
+import TeamSeven.Client.socket.ClientSocket;
+import TeamSeven.Client.socket.ClientSocketImpl;
 import TeamSeven.entity.Account;
 import TeamSeven.util.SerializeTool;
 import java.text.SimpleDateFormat;
@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import TeamSeven.Client.ui.ClientUI;
+import TeamSeven.Client.ui.ClientLoginUI;
 
 public class Client {
 
@@ -163,10 +165,9 @@ public class Client {
     }*/
 
     public static void main(String[] args) throws URISyntaxException, IOException {
-
     }
 
-    public static void mainOld(String[] args) throws URISyntaxException, IOException {
+    public static void mainold(String[] args) throws URISyntaxException, IOException {
         String serverIp = "";
         Integer port = 8887;
 
@@ -190,7 +191,6 @@ public class Client {
 
         /* 建立新的URI实例 */
         URI serverUri = new URI("ws://" + serverIp + ":" + port.toString());
-
         /* 建立新的ClientSocket实例 */
         ClientSocket c = null;
         BufferedReader sysin = new BufferedReader(new InputStreamReader(System.in));
