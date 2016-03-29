@@ -63,18 +63,6 @@ public class Client {
         c.sendMessage(accountMsg);
 
 
-         /* 开始定时记录 */
-        TimerTask task = new TimerTask() {
-
-            @Override
-            public void run() {
-                LogTool.log( userName );
-            }
-        };
-        Timer timer = new Timer();
-        timer.schedule(task, 0, 60000);
-
-
         /* 启动Client后 */
         System.out.println("[*] 客户端已启动, 目标服务器: " + serverUri.getHost() + ", 输入restart重连, 输入exit退出. 其他聊天消息可直接输入.");
 

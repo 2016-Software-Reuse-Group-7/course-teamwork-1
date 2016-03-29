@@ -1,22 +1,23 @@
 package TeamSeven.server;
-import TeamSeven.util.LogTool;
 
 import TeamSeven.server.socket.ServerSocket;
 import TeamSeven.server.socket.ServerSocketImpl;
+import TeamSeven.util.LogTool;
 import org.java_websocket.WebSocketImpl;
 
-import java.io.*;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by joshoy on 16/3/22.
+ * Created by tina on 16/3/29.
  */
-public class Server {
+public class ServerWithTimer {
     /*
-    * 服务端主函数
-    * */
+* 服务端主函数
+* */
     public static void main(String[] args) throws InterruptedException , IOException {
         WebSocketImpl.DEBUG = true;
         int port = 8887;
@@ -29,6 +30,17 @@ public class Server {
 
         ServerSocket s = new ServerSocketImpl(port);
         s.start();
+
+        /* 开始定时记录 */
+        TimerTask task = new TimerTask() {
+
+            @Override
+            public void run() {
+                LogTool.log( "server" );
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(task, 0, 60000 );
 
 
         /* 启动Server后 */
@@ -52,7 +64,4 @@ public class Server {
             }
         }
     }
-
-
-
 }
