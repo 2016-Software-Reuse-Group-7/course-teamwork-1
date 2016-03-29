@@ -1,4 +1,5 @@
 package TeamSeven.server;
+import TeamSeven.util.LogTool;
 
 import TeamSeven.server.socket.ServerSocket;
 import TeamSeven.server.socket.ServerSocketImpl;
@@ -6,9 +7,6 @@ import org.java_websocket.WebSocketImpl;
 
 import java.io.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,26 +35,9 @@ public class Server {
 
             @Override
             public void run() {
-
-                Date dt = new Date();
-                DateFormat df = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
-                String time = df.format( dt );
-
-                try {
-
-                    String fileName = "./log/server.txt";
-                    FileWriter writer = new FileWriter( fileName, true );
-                    System.out.println( time + "  接收消息数量:   忽略消息数量:  " );  //received/ignored messages number
-                    writer.write( time + "  接收消息数量:   忽略消息数量:  \n" );
-                    writer.close();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.out.println( "error" );
-                }
+                LogTool.log( "server" );
             }
         };
-
         Timer timer = new Timer();
         timer.schedule(task, 0, 60000);
 
