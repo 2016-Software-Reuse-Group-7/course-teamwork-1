@@ -15,6 +15,8 @@ import java.util.TimerTask;
  * Created by tina on 16/3/29.
  */
 public class ServerWithTimer {
+
+
     /*
 * 服务端主函数
 * */
@@ -32,6 +34,8 @@ public class ServerWithTimer {
         s.start();
 
         /* 开始定时记录 */
+        LogTool logTool = new LogTool();
+
         TimerTask task = new TimerTask() {
 
             @Override

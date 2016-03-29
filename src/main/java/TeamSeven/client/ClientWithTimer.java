@@ -20,6 +20,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ClientWithTimer {
+
+
     /*
     * 客户端主函数
     * */
@@ -47,6 +49,8 @@ public class ClientWithTimer {
 
 
          /* 开始定时记录 */
+        LogTool.addClient( userName );
+
         TimerTask task = new TimerTask() {
 
             @Override
@@ -75,9 +79,11 @@ public class ClientWithTimer {
                 System.out.println("[*] 客户端已重启, 目标服务器: " + serverUri.getHost() + ", 输入restart重连, 输入exit退出. 其他聊天消息可直接输入.");
             }
             else {
+                LogTool.addSentMessagesNumber( userName, 1 );
                 /*Chat msg = new Chat(in);
                 String encodedMsg = SerializeTool.ObjectToString(msg);
                 c.send(encodedMsg);*/
+                c.sendChat(in);
             }
         }
     }
