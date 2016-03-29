@@ -40,6 +40,11 @@ public class Account implements Serializable, IMessageType {
     }
 
     @Override
+    public int hashCode() {
+        return (this.userName + "::" + this.password).hashCode();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Account) {
             Account account = (Account) obj;

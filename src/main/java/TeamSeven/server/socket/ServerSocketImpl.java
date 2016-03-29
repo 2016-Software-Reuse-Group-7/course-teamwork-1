@@ -88,11 +88,13 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
         Date nowDate = new Date();
         if (!VerificationTool.checkOverFrequency(chatObj.getAccount(), nowDate)){
             // Send OverFrequency
+            System.out.println("[!] Chat Overfrequent.");
             return;
         }
 
         if (!VerificationTool.checkOutOfLimit(chatObj.getAccount(), nowDate)){
             //Send Relogin
+            System.out.println("[!] Need Relogin.");
             return;
         }
 
@@ -104,23 +106,18 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
         respChat.setUserName(chatObj.getAccount().getUserName());
         this.sendToAll(SerializeTool.ObjectToString(respChat));
 
-
-
-        /*
-        //Send OK
-        this.sendToAll(SerializeTool.ObjectToString(chatObj));
-        */
     }
 
     /* 验证账号是否合法 */
     private void handleAccount(Account accountObj, WebSocket conn) throws IOException {
         ServerResponseAccess sr = null;
-        if (VerificationTool.checkAccount(accountObj)) {
+        if (VerificationTool.registerLoggedAccount(accountObj)) {
             sr = new ServerResponseAccess(true);
             conn.send(SerializeTool.ObjectToString(sr));
         }
         else {
-            conn.send("");
+            sr = new ServerResponseAccess(false);
+            conn.send(SerializeTool.ObjectToString(sr));
         }
     }
 }
