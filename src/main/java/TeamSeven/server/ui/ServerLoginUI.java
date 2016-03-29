@@ -33,12 +33,12 @@ public class ServerLoginUI {
 
         labelPort = new JLabel("Port");
         labelPort.setBounds(60, 50, 100, 30);
-        labelPort.setText("8887");
         jFrame.add(labelPort);
 
 
         textFieldPort = new JTextField();
         textFieldPort.setBounds(180, 50, 130, 30);
+        textFieldPort.setText("8887");
         jFrame.add(textFieldPort);
 
         loginButton = new JButton("Login");

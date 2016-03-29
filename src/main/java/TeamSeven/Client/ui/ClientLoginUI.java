@@ -51,20 +51,20 @@ public class ClientLoginUI {
 
         labelPort = new JLabel("Port");
         labelPort.setBounds(60, 150, 100, 30);
-        labelPort.setText("8887");
         jFrame.add(labelPort);
 
         labelIP= new JLabel("IP");
         labelIP.setBounds(60, 200, 100, 30);
-        labelIP.setText("127.0.0.1");
         jFrame.add(labelIP);
 
         textFieldPort = new JTextField();
         textFieldPort.setBounds(180, 150, 130, 30);
+        textFieldPort.setText("8887");
         jFrame.add(textFieldPort);
 
         textFieldIP = new JTextField();
         textFieldIP.setBounds(180, 200, 130, 30);
+        textFieldIP.setText("127.0.0.1");
         jFrame.add(textFieldIP);
 
         loginButton = new JButton("Login");
