@@ -47,6 +47,8 @@ public class ClientLoginUI {
 
         loginButton = new JButton("Login");
         loginButton.setBounds(120, 155, 150, 30);
+
+        jFrame.setVisible(true);
     }
 
     public void bindLoginAction(ActionListener listener) {
