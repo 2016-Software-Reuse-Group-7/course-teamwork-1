@@ -27,6 +27,7 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
 
     public ServerSocketImpl(int port) throws UnknownHostException {
         super(new InetSocketAddress(port));
+        this.port = port;
     // clientConnectionList = new ArrayList<ClientConnectionSocket>();
     }
 
