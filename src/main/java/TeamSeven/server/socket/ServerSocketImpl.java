@@ -111,7 +111,8 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
         respChat.setMessage(chatObj.getContent());
         respChat.setUserName(chatObj.getAccount().getUserName());
         this.sendToAll(SerializeTool.ObjectToString(respChat));
-        this.printLineToUITextArea("[" + chatObj.getAccount().getUserName() + "]: " + chatObj.getContent());
+        this.printLineToUITextArea("[" + chatObj.getAccount().getUserName() + "@"
+                + (new Date()).toString() + "]: " + chatObj.getContent());
     }
 
     /* 验证账号是否合法 */
@@ -121,7 +122,9 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
             sr = new ServerResponseAccess(true);
             conn.send(SerializeTool.ObjectToString(sr));
 
-            this.printLineToUITextArea(accountObj.getUserName() + "@" + conn.getRemoteSocketAddress().getAddress().getHostAddress() + "进入了房间.");
+            this.printLineToUITextArea(accountObj.getUserName() + "@" + (new Date()).toString()
+                    + "(" + conn.getRemoteSocketAddress().getAddress().getHostAddress() + ")"
+                    + "进入了房间.");
             ServerResponseChat chat = new ServerResponseChat();
             chat.setChatTime(new Date());
             chat.setMessage(accountObj.getUserName() + "进入了房间.");
@@ -146,5 +149,18 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
         if (null != this.ui) {
             this.ui.appendTextLine(text);
         }
+    }
+
+    public void sendBoardcast(String text) {
+        ServerResponseChat respChat = new ServerResponseChat();
+        respChat.setChatTime(new Date());
+        respChat.setMessage(text);
+        respChat.setUserName("系统消息");
+        try {
+            this.sendToAll(SerializeTool.ObjectToString(respChat));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.printLineToUITextArea("[系统消息 @ " + (new Date()).toString() + "]: " + text);
     }
 }

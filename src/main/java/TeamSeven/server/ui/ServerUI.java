@@ -15,11 +15,13 @@ import java.util.Date;
  * Created by joshoy on 16/3/28.
  */
 public class ServerUI implements ITextAreaAppendable {
-    protected final JFrame jf;
-    protected final JTextArea jTextArea;
+    protected JTextField inputText;
+    protected JFrame jf;
+    protected JTextArea jTextArea;
     protected JScrollPane jsp;
     protected JButton bexit;
     protected JButton bStart;
+    protected JButton bBoardcast;
     protected boolean serverSocketStarted;
     protected ServerSocket serverSocket;
 
@@ -29,7 +31,7 @@ public class ServerUI implements ITextAreaAppendable {
         this.serverSocket.setTextAreaUI(this);
 
         jf = new JFrame("Server is on...");
-        jf.setBounds(410,150, 600, 400);
+        jf.setBounds(450,150, 600, 400);
         jf.setResizable(false);
         jf.setLayout(null);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,6 +47,14 @@ public class ServerUI implements ITextAreaAppendable {
         jsp.setBounds(50, 30, 440, 200);
         jf.add(jsp);
 
+        inputText = new JTextField();
+        inputText.setBounds(50, 320, 390, 30);
+        jf.add(inputText);
+
+        bBoardcast = new JButton("Boardcast");
+        bBoardcast.setBounds(450, 320, 100, 30);
+        this.bindActionOnBtnBoardcast();
+        jf.add(bBoardcast);
 
         bexit = new JButton("Exit");
         bexit.setBounds(200, 275, 100, 30);
@@ -69,7 +79,7 @@ public class ServerUI implements ITextAreaAppendable {
     }
 
     /* 启动/关闭按钮 */
-    public void bindActionOnBtnStart() {
+    protected void bindActionOnBtnStart() {
         this.bStart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (false == serverSocketStarted) {
@@ -111,4 +121,19 @@ public class ServerUI implements ITextAreaAppendable {
             }
         });
     }
+
+    protected void bindActionOnBtnBoardcast() {
+        this.bBoardcast.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (false == serverSocketStarted) {
+                    appendTextLine("请先启动服务器.");
+                }
+                else {
+                    serverSocket.sendBoardcast(inputText.getText());
+                    inputText.setText("");
+                }
+            }
+        });
+    }
+
 }

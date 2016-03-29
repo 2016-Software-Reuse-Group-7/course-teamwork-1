@@ -22,4 +22,5 @@ public interface ServerSocket {
     public int getPort();
     public void setTextAreaUI(ITextAreaAppendable ui);
     public void printLineToUITextArea(String text);
+    public void sendBoardcast(String text);
 }
