@@ -78,8 +78,7 @@ public class ClientLoginUI {
         jFrame.setVisible(true);
     }
 
-    public void bindLoginAction(ActionListener listener) {
-        this.loginButton.addActionListener(listener);
+    protected void bindLoginAction() {
+        // TODO
     }
-
 }

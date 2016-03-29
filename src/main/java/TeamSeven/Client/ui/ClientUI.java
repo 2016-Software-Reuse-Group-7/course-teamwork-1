@@ -1,18 +1,10 @@
 package TeamSeven.client.ui;
 
-import TeamSeven.client.Client;
-import TeamSeven.client.socket.ClientSocket;
-import TeamSeven.client.socket.ClientSocketImpl;
-import TeamSeven.entity.Account;
-import TeamSeven.util.SerializeTool;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.URI;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by joshoy on 16/3/28.
