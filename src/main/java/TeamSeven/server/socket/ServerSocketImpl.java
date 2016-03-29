@@ -20,18 +20,14 @@ import java.util.*;
 
 public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
 
+
     protected int port;
     protected ITextAreaAppendable ui;
-    //private List<ClientConnectionSocket> clientConnectionList;
+    // private List<ClientConnectionSocket> clientConnectionList;
 
     public ServerSocketImpl(int port) throws UnknownHostException {
         super(new InetSocketAddress(port));
-        this.port = port;
-        //clientConnectionList = new ArrayList<ClientConnectionSocket>();
-    }
-
-    public ServerSocketImpl(InetSocketAddress address) {
-        super(address);
+    // clientConnectionList = new ArrayList<ClientConnectionSocket>();
     }
 
     @Override
@@ -118,6 +114,7 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
     /* 验证账号是否合法 */
     private void handleAccount(Account accountObj, WebSocket conn) throws IOException {
         ServerResponseAccess sr = null;
+
         if (VerificationTool.registerLoggedAccount(accountObj)) {
             sr = new ServerResponseAccess(true);
             conn.send(SerializeTool.ObjectToString(sr));
@@ -156,11 +153,16 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
         respChat.setChatTime(new Date());
         respChat.setMessage(text);
         respChat.setUserName("系统消息");
+        this.printLineToUITextArea("[系统消息 @ " + (new Date()).toString() + "]: " + text);
         try {
             this.sendToAll(SerializeTool.ObjectToString(respChat));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.printLineToUITextArea("[系统消息 @ " + (new Date()).toString() + "]: " + text);
+        /*else if(VerificationTool.checkAccount(accountObj) == 0){
+            conn.send("Wrong password or username !");
+            }else{
+            conn.send("Duplicate login.Please protect your password~");
+        }*/
     }
 }
