@@ -1,5 +1,6 @@
 package TeamSeven.server.socket;
 
+import TeamSeven.common.ITextAreaAppendable;
 import TeamSeven.entity.Account;
 import TeamSeven.entity.Chat;
 import org.java_websocket.WebSocket;
@@ -18,4 +19,7 @@ public interface ServerSocket {
     public void sendToAll(String msg);
     public void start();
     public void stop() throws IOException, InterruptedException;
+    public int getPort();
+    public void setTextAreaUI(ITextAreaAppendable ui);
+    public void printLineToUITextArea(String text);
 }

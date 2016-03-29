@@ -16,7 +16,6 @@ public class Client {
     public static void main(String[] args) throws URISyntaxException, IOException {
         ClientLoginUI clientLoginUI = new ClientLoginUI();
 
-
     }
 
 

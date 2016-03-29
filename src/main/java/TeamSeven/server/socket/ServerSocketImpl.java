@@ -5,6 +5,7 @@ package TeamSeven.server.socket;
  */
 
 import TeamSeven.common.IMessageType;
+import TeamSeven.common.ITextAreaAppendable;
 import TeamSeven.entity.*;
 import TeamSeven.util.SerializeTool;
 import TeamSeven.util.VerificationTool;
@@ -19,10 +20,13 @@ import java.util.*;
 
 public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
 
+    protected int port;
+    protected ITextAreaAppendable ui;
     //private List<ClientConnectionSocket> clientConnectionList;
 
     public ServerSocketImpl(int port) throws UnknownHostException {
         super(new InetSocketAddress(port));
+        this.port = port;
         //clientConnectionList = new ArrayList<ClientConnectionSocket>();
     }
 
@@ -33,13 +37,15 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         // this.sendToAll("new connection: " + handshake.getResourceDescriptor());
-        System.out.println(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!");
+        // System.out.println(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!");
+        // this.printLineToUITextArea(conn.getRemoteSocketAddress().getAddress().getHostAddress() + "进入了房间.");
     }
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote /* 是否由远端(客户端)发起 */) {
         // this.sendToAll(conn + " has left the room!");
         System.out.println(conn + " has left the room!");
+        this.printLineToUITextArea(conn.getRemoteSocketAddress() + "离开了房间.");
     }
 
     @Override
@@ -105,7 +111,7 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
         respChat.setMessage(chatObj.getContent());
         respChat.setUserName(chatObj.getAccount().getUserName());
         this.sendToAll(SerializeTool.ObjectToString(respChat));
-
+        this.printLineToUITextArea("[" + chatObj.getAccount().getUserName() + "]: " + chatObj.getContent());
     }
 
     /* 验证账号是否合法 */
@@ -114,10 +120,31 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
         if (VerificationTool.registerLoggedAccount(accountObj)) {
             sr = new ServerResponseAccess(true);
             conn.send(SerializeTool.ObjectToString(sr));
+
+            this.printLineToUITextArea(accountObj.getUserName() + "@" + conn.getRemoteSocketAddress().getAddress().getHostAddress() + "进入了房间.");
+            ServerResponseChat chat = new ServerResponseChat();
+            chat.setChatTime(new Date());
+            chat.setMessage(accountObj.getUserName() + "进入了房间.");
+            chat.setUserName("[系统消息]");
+            this.sendToAll(SerializeTool.ObjectToString(chat));
         }
         else {
             sr = new ServerResponseAccess(false);
             conn.send(SerializeTool.ObjectToString(sr));
+        }
+    }
+
+    public int getPort() {
+        return this.port;
+    }
+
+    public void setTextAreaUI(ITextAreaAppendable ui) {
+        this.ui = ui;
+    }
+
+    public void printLineToUITextArea(String text) {
+        if (null != this.ui) {
+            this.ui.appendTextLine(text);
         }
     }
 }

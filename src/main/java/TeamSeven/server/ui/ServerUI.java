@@ -3,21 +3,31 @@ package TeamSeven.server.ui;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import TeamSeven.common.ITextAreaAppendable;
+import TeamSeven.server.socket.ServerSocket;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by joshoy on 16/3/28.
  */
-public class ServerUI {
-
+public class ServerUI implements ITextAreaAppendable {
     protected final JFrame jf;
     protected final JTextArea jTextArea;
     protected JScrollPane jsp;
     protected JButton bexit;
-    protected JButton brestart;
+    protected JButton bStart;
+    protected boolean serverSocketStarted;
+    protected ServerSocket serverSocket;
 
-    public ServerUI() {
+    public ServerUI(ServerSocket ss) {
+        this.serverSocketStarted = false;
+        this.serverSocket = ss;
+        this.serverSocket.setTextAreaUI(this);
+
         jf = new JFrame("Server is on...");
         jf.setBounds(410,150, 600, 400);
         jf.setResizable(false);
@@ -38,33 +48,67 @@ public class ServerUI {
 
         bexit = new JButton("Exit");
         bexit.setBounds(200, 275, 100, 30);
-        bexit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Date day = new Date();
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                jTextArea.append(df.format(day)+"\n");
-                jTextArea.append("server log out. "+"\n\n");
-                jf.dispose();
-            }
-        });
+        this.bindActionOnBtnExit();
         jf.add(bexit);
 
-        brestart = new JButton("Restart");
-        brestart.setBounds(50, 275, 100, 30);
-        brestart.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                jf.dispose();
-                new ServerUI();
-            }
-        });
-        jf.add(brestart);
+        bStart = new JButton("Start");
+        bStart.setBounds(50, 275, 100, 30);
+        jf.add(bStart);
+        this.bindActionOnBtnStart();
 
         // 显示窗口
         jf.setVisible(true);
+    }
+
+    public void appendText(String text) {
+        jTextArea.append(text);
     }
 
     public void appendTextLine(String text) {
         jTextArea.append(text + "\n");
     }
 
+    /* 启动/关闭按钮 */
+    public void bindActionOnBtnStart() {
+        this.bStart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (false == serverSocketStarted) {
+                    bStart.setText("Stop");
+                    serverSocket.start();
+                    serverSocketStarted = true;
+                    appendTextLine("服务器已启动. 端口号: " + serverSocket.getPort());
+                }
+                else {
+                    try {
+                        serverSocket.stop();
+                        serverSocketStarted = false;
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                    bStart.setText("Start");
+                    appendTextLine("服务器已关闭.");
+                }
+            }
+        });
+    }
+
+    /* 关闭Server UI */
+    protected void bindActionOnBtnExit() {
+        this.bexit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                if (true == serverSocketStarted) {
+                    try {
+                        serverSocket.stop();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                jf.dispose();
+            }
+        });
+    }
 }
