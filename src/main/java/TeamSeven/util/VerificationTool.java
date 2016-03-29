@@ -90,8 +90,8 @@ public abstract class VerificationTool {
         }
     }
 
-    public static boolean checkOverFrequency(Account account, Date date) {
-        final int LimitedTime = 1000 * 60; // 1秒
+    public static boolean checkOverFrequency(Account account, Date date){
+        final int LimitedTime = 1000; // 1秒/1000毫秒
         Date recentMSGTime = LoggedAccountList.get(account).getRecentMSGTime();
         if (recentMSGTime != null) {
             if (date.getTime() - recentMSGTime.getTime() <= LimitedTime) {
