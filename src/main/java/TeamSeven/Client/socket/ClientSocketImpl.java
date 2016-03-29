@@ -20,6 +20,7 @@ public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
     private boolean accessGranted = false;
     private boolean receivedLoginResponse = false;
 
+
     public ClientSocketImpl(URI serverURI) {
         super(serverURI);
     }
