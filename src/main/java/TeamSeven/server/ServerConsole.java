@@ -34,8 +34,8 @@ public class ServerConsole {
                 System.out.println("[*] 服务器已重启, 输入restart重启, 输入exit退出. 其他广播消息可直接输入.");
             }
             else {
-                System.out.println("[*] [系统广播] " + in);
-                s.sendToAll("[系统广播] " + in);
+                // System.out.println("[*] [系统广播] " + in);
+                // s.sendToAll("[系统广播] " + in);
             }
         }
     }
