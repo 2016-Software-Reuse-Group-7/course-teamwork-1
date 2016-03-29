@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Created by joshoy on 16/3/28.
  */
-public class ServerUI implements ITextAreaAppendable {
+public class ServerUIOld implements ITextAreaAppendable {
     protected JTextField inputText;
     protected JFrame jf;
     protected JTextArea jTextArea;
@@ -25,7 +25,7 @@ public class ServerUI implements ITextAreaAppendable {
     protected boolean serverSocketStarted;
     protected ServerSocket serverSocket;
 
-    public ServerUI(ServerSocket ss) {
+    public ServerUIOld(ServerSocket ss) {
         this.serverSocketStarted = false;
         this.serverSocket = ss;
         this.serverSocket.setTextAreaUI(this);
