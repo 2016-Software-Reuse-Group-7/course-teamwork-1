@@ -64,6 +64,7 @@ public class ClientUI {
         bport = new JButton("");
         bport.setBounds(520, 50, 100, 30);
         bport.setEnabled(false);
+        bport.setText("8887");
         jf.add(bport);
 
         labelIP = new JLabel("IP：");
@@ -73,6 +74,8 @@ public class ClientUI {
         bip = new JButton("");
         bip.setBounds(520, 100, 100, 30);
         bip.setEnabled(false);
+        bip.setText("127.0.0.1");
+
         jf.add(bip);
 
         button = new JButton("Send");

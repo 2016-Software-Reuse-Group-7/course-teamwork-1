@@ -165,6 +165,7 @@ public class Client {
     }*/
 
     public static void main(String[] args) throws URISyntaxException, IOException {
+        new ClientLoginUI();
     }
 
     public static void mainold(String[] args) throws URISyntaxException, IOException {
@@ -194,7 +195,6 @@ public class Client {
         /* 建立新的ClientSocket实例 */
         ClientSocket c = null;
         BufferedReader sysin = new BufferedReader(new InputStreamReader(System.in));
-
         boolean needLogin = true;
         while (needLogin) {
             c = new ClientSocketImpl(serverUri);

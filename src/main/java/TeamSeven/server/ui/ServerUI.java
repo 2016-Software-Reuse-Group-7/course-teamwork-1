@@ -40,6 +40,7 @@ public class ServerUI {
 
         labelPort = new JLabel("Port：");
         labelPort.setBounds(520, 50, 50, 30);
+        labelPort.setText("8887");
         jf.add(labelPort);
 
         bport = new JButton("");

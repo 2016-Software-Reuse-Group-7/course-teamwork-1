@@ -25,7 +25,7 @@ public class ServerLoginUI {
     protected JTextField textFieldIP;
     public ServerLoginUI() {
         /* initialize JFrame */
-        jFrame = new JFrame();
+        jFrame = new JFrame("Server log");
         jFrame.setBounds(450, 200, 350, 230);
         jFrame.setResizable(false);
         jFrame.setLayout(null);
