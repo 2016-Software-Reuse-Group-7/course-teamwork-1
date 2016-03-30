@@ -7,6 +7,7 @@ package TeamSeven.server.socket;
 import TeamSeven.common.IMessageType;
 import TeamSeven.common.ITextAreaAppendable;
 import TeamSeven.entity.*;
+import TeamSeven.util.LogTool;
 import TeamSeven.util.SerializeTool;
 import TeamSeven.util.VerificationTool;
 import org.java_websocket.WebSocket;
@@ -91,6 +92,7 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
         Date nowDate = new Date();
         if (!VerificationTool.checkOverFrequency(chatObj.getAccount(), nowDate)){
             // Send OverFrequency
+            LogTool.addIgnoredMessagesNumber( 1 );
             System.out.println("[!] Chat Overfrequent.");
             return;
         }
@@ -110,6 +112,8 @@ public class ServerSocketImpl extends WebSocketServer implements ServerSocket {
         this.sendToAll(SerializeTool.ObjectToString(respChat));
         this.printLineToUITextArea("[" + chatObj.getAccount().getUserName() + "@"
                 + (new Date()).toString() + "]: " + chatObj.getContent());
+
+        LogTool.addReceivedMessagesNumber( 1 );
     }
 
     /* 验证账号是否合法 */
