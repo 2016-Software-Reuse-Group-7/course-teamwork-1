@@ -1,9 +1,10 @@
-package TeamSeven.Client.ui;
+package TeamSeven.client.ui;
 
-import TeamSeven.Client.Client;
-import TeamSeven.Client.socket.ClientSocket;
-import TeamSeven.Client.socket.ClientSocketImpl;
+import TeamSeven.client.socket.ClientSocket;
+import TeamSeven.client.socket.ClientSocketImpl;
+import TeamSeven.common.ITextAreaAppendable;
 import TeamSeven.entity.Account;
+import TeamSeven.entity.Chat;
 import TeamSeven.util.SerializeTool;
 
 import javax.swing.*;
@@ -11,13 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URI;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by joshoy on 16/3/28.
  */
-public class ClientUI {
+public class ClientUI implements ITextAreaAppendable {
 
     protected JFrame jf;
     protected JTextArea jTextArea;
@@ -31,7 +30,21 @@ public class ClientUI {
     protected JLabel labelIP;
     protected JButton bip;
 
-    public ClientUI(final URI serverUri, final String userName, final String password) {
+    protected ClientSocket clientSocket;
+    protected URI uri;
+    protected Account account;
+    protected boolean connectedToServer;
+
+    public ClientUI(final URI serverUri, final String userName, final String password) throws IOException {
+
+        this.account = new Account(userName, password);
+        this.uri = serverUri;
+        this.connectedToServer = false;
+
+        this.clientSocket = new ClientSocketImpl(this.uri);
+        this.clientSocket.setAccount(account);
+        this.clientSocket.connect();
+        boolean success = this.clientSocket.sendLogin();
 
         /* Initialize JFrame s*/
         jf = new JFrame("Hello, " + userName);
@@ -74,21 +87,34 @@ public class ClientUI {
         bip = new JButton("");
         bip.setBounds(520, 100, 100, 30);
         bip.setEnabled(false);
-        bip.setText("127.0.0.1");
+        bip.setText(this.uri.getHost());
 
         jf.add(bip);
 
         button = new JButton("Send");
         button.setBounds(450, 280, 80, 30);
         button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {}});
+            public void actionPerformed(ActionEvent e) {
+                Chat chat = new Chat(text1.getText(), account);
+                try {
+                    clientSocket.sendChat(SerializeTool.ObjectToString(chat));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
         jf.add(button);
 
 
         bexit = new JButton("Exit");
         bexit.setBounds(520, 220, 80, 30);
         bexit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {}});
+            public void actionPerformed(ActionEvent e) {
+                if (connectedToServer) {
+                    clientSocket.close();
+                }
+                jf.dispose();
+            }});
         jf.add(bexit);
 
         brelog = new JButton("Relog");
@@ -99,21 +125,15 @@ public class ClientUI {
         jf.setVisible(true);
     }
 
-    public void bindActionOnBtnSend(ActionListener listener) {
-        this.button.addActionListener(listener);
-    }
-
-    public void bindActionOnBtnExit(ActionListener listener) {
-        this.bexit.addActionListener(listener);
-    }
-
-    public void bindActionOnBtnRelogin(ActionListener listener) {
-        this.brelog.addActionListener(listener);
+    public void appendText(String text) {
+        this.jTextArea.append(text);
     }
 
     public void appendTextLine(String text) {
         this.jTextArea.append(text + "\n");
     }
+
+
 }
 
 

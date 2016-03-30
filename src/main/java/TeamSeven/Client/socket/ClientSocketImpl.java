@@ -1,4 +1,4 @@
-package TeamSeven.Client.socket;
+package TeamSeven.client.socket;
 
 import TeamSeven.common.IMessageType;
 import TeamSeven.entity.*;
@@ -19,6 +19,7 @@ public class ClientSocketImpl extends WebSocketClient implements ClientSocket {
     private Account account = null;
     private boolean accessGranted = false;
     private boolean receivedLoginResponse = false;
+
 
     public ClientSocketImpl(URI serverURI) {
         super(serverURI);

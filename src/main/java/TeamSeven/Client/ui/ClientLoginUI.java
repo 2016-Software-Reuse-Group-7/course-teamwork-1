@@ -1,8 +1,11 @@
-package TeamSeven.Client.ui;
+package TeamSeven.client.ui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Created by joshoy on 16/3/28.
@@ -24,6 +27,7 @@ public class ClientLoginUI {
     protected JLabel labelIP;
     protected JTextField textFieldPort;
     protected JTextField textFieldIP;
+
     public ClientLoginUI() {
         /* initialize JFrame */
         jFrame = new JFrame();
@@ -70,14 +74,21 @@ public class ClientLoginUI {
         loginButton = new JButton("Login");
         loginButton.setBounds(120, 355, 150, 30);
         loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {}});
+            public void actionPerformed(ActionEvent e) {
+                URI uri;
+                try {
+                    uri = new URI("ws://" + textFieldIP.getText() + ":" + textFieldPort.getText());
+                    try {
+                        ClientUI ui = new ClientUI(uri, textFieldUsername.getText(), textFieldPassword.getText());
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
         jFrame.add(loginButton);
         jFrame.setVisible(true);
-
     }
-
-    public void bindLoginAction(ActionListener listener) {
-        this.loginButton.addActionListener(listener);
-    }
-
 }
