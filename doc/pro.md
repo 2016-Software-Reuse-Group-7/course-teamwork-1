@@ -68,10 +68,10 @@
 ####1.界面
 #####- 1.1客户端登录界面：
    客户端在登录时可选择相应的服务器。服务器端口默认为8887，IP地址默认为127.0.0.1。输入用户名及密码即可实现登录。输入错误会有相应提示。
-(https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/1.png)
+![image](https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/1.png)
 #####- 1.2服务端登录：
   输入服务端端口号即可实现登录。
-  (https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/2.png)
+![image](https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/2.png)
 #####- 1.3客户端界面：
    窗口标题栏显示用户名；   
     界面左上方的文本域显示对话信息；
@@ -79,7 +79,7 @@
 在下方文本框中输入消息，点击“Send”按钮即可发送消息；
 点击“Relog”按钮实现重新登录；
 点击“Exit”按钮实现退出；
-(https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/3.png)
+![image](https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/3.png)
 #####- 1.4服务端界面
 界面左上方的文本域显示对话信息；
 右边显示当前服务器端口号；
@@ -87,23 +87,23 @@
 点击“Restart”按钮实现服务器重新启动；
 点击“Exit”按钮实现退出；
 
-(https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/4.png)
+![image](https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/4.png)
 
 
 ####- 2.项目架构：
 本项目架构图如下：
 
-(https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/arc.png)
+![image](https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/arc.png)
 
 
 
 
 >登录部分逻辑：在客户端请求登录时，需验证输入的用户名及密码是否正确，以及是否重复登录。而服务端实现了地址的可配置，输入端口号可登录相应的服务器，客户端输入对应的端口号和IP地址即可与相应的服务器相连。
                 
-(https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/log.png)
+![image](https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/log.png)
 >通信部分逻辑：在通信是，发送的消息采用加密方式传输，msg包含了发送的消息以及客户端的userName.
  
-(https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/comm.png)
+![image](https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1/tree/houxiaoxue2/src/res/comm.png)
 
 
 ###四、项目亮点
