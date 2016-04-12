@@ -15,16 +15,10 @@ git clone https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1.git
 
 1. <a href="https://github.com/TooTallNate/Java-WebSocket">Java WebSocket</a>
 2. sqllite-jdbc
-3. <del><a href="https://github.com/FasterXML/jackson-databind">jackson-databind</a>（还不确定最后用不用）</del>
-4. <a href="http://ruedigermoeller.github.io/fast-serialization">Fast Serialization</a>
+3. <a href="http://ruedigermoeller.github.io/fast-serialization">Fast Serialization</a>
 
-## TODO List
-- [x] Server Socket
-- [x] Client Socket
-- [x] GUI
-- [x] 连接统计
-- [x] 登录权限验证
-- [x] 数据库(是否要用数据库存储账户信息?)
-- [ ] 文档! 文档! 文档!
+## 可复用构建（已开其他仓库，请移步：）
+- <a href="https://github.com/2016-Software-Reuse-Group-7/CM-module">配置管理模块</a>
+- <a href="https://github.com/2016-Software-Reuse-Group-7/PM-module">性能管理模块</a>
+- <a href="https://github.com/2016-Software-Reuse-Group-7/License-module">许可证模块</a>
 
-### Modified by JoshOY
