@@ -22,3 +22,6 @@ git clone https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1.git
 - <a href="https://github.com/2016-Software-Reuse-Group-7/PM-module">性能管理模块</a>
 - <a href="https://github.com/2016-Software-Reuse-Group-7/License-module">许可证模块</a>
 
+## 复用其他组的构件
+我们新建了一个项目，用于尝试复用其他组的项目，请移步：
+https://github.com/2016-Software-Reuse-Group-7/course-teamwork-03
