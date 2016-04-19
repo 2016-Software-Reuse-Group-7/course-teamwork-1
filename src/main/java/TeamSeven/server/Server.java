@@ -3,10 +3,13 @@ package TeamSeven.server;
 import TeamSeven.server.socket.ServerSocket;
 import TeamSeven.server.socket.ServerSocketImpl;
 import TeamSeven.server.ui.ServerUI;
+import octoteam.tahiti.config.ConfigManager;
+import octoteam.tahiti.config.loader.JsonAdapter;
 import org.java_websocket.WebSocketImpl;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.nio.file.Paths;
 
 import TeamSeven.server.ui.ServerLoginUI;
 import TeamSeven.server.ui.ServerUI;
@@ -37,8 +40,14 @@ public class Server {
     }
 
     public static void main(String[] args) throws InterruptedException , IOException {
-        int port = 8887;
-        String ip = "127.0.0.1";
+        ConfigManager configManager = new ConfigManager(
+                new JsonAdapter(),
+                "./config.json",
+                Paths.get(this.getClass().getResource("/config.json").toURI().toString())
+        );
+        ConfigBean configBean = configManager.loadToBean(ConfigBean.class);
+        int port = configBean.getPort();
+        String ip = configBean.getHost();
 
         WebSocketImpl.DEBUG = true;
         /* 启动Server后 */
