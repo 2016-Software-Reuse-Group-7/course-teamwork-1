@@ -1,4 +1,5 @@
-# 软件复用实践任务1
+
+# # 软件复用实践任务1
 
 ## How to Development
 开发推荐使用IDE: <a href="https://www.jetbrains.com/idea">IntelliJ IDEA</a>
@@ -25,3 +26,11 @@ git clone https://github.com/2016-Software-Reuse-Group-7/course-teamwork-1.git
 ## 复用其他组的构件
 我们新建了一个项目，用于尝试复用其他组的项目，请移步：
 https://github.com/2016-Software-Reuse-Group-7/course-teamwork-03
+
+# 重构项目
+
+我们对整个项目进行了重构，以更好适应复用构件。从第4次任务开始将使用此repo，请移步：
+https://github.com/2016-Software-Reuse-Group-7/chat-room
+或者直接clone：
+git clone https://github.com/2016-Software-Reuse-Group-7/chat-room.git
+
